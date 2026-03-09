@@ -1,6 +1,8 @@
+# Conceitos Básicos em PHP
+
 ## Operadores no PHP
 
-## Operadores de atribuição
+### Operadores de atribuição
 
 Os operadores de atribuição são usados para atribuir um valor a uma variável. O operador de atribuição básico é o = (sinal de igual). Por exemplo:
 
@@ -11,7 +13,7 @@ $valor += 15;  // Equivalente a $valor = $valor + 15, atribui o valor 25 à vari
 
 ```
 
-## Operadores aritméticos
+### Operadores aritméticos
 
 Os operadores aritméticos (ou operadores matemáticos) são usados para realizar operações matemáticas básicas. Alguns dos operadores matemáticos no PHP são:
 
@@ -23,7 +25,7 @@ Os operadores aritméticos (ou operadores matemáticos) são usados para realiza
     ** (potência)
 
 
-## Operadores de comparação
+### Operadores de comparação
 
 Os operadores de comparação, como seu nome diz, são usados para comparar valores. Eles retornam um valor booleano (verdadeiro ou falso). Trabalharemos melhor com eles quando estivermos na aula de condicionais, em que vamos modificar o fluxo da aplicação dada alguma condição. Alguns operadores de comparação no PHP são:
 
@@ -38,7 +40,7 @@ Os operadores de comparação, como seu nome diz, são usados para comparar valo
     <= (menor ou igual a)
 
 
-## Operadores Lógicos
+### Operadores Lógicos
 
 Esses operadores são usados quando queremos verificar duas ou mais condições e/ou expressões na aplicação. Eles fazem a comparação de valores booleanos e retornam também um resultado booleano.
 
@@ -70,7 +72,7 @@ $a = true;
 $negacao = !$a; // O resultado será *false*
 ```
 
-## Operadores de incremento e decremento
+### Operadores de incremento e decremento
 
 Além dos operadores citados anteriormente, o operador de incremento é usado para aumentar o valor de uma variável em 1. Existem dois tipos de operadores de incremento: o operador de pré-incremento (++$variavel) e o operador de pós-incremento ($variavel++).
 
@@ -88,7 +90,7 @@ O mesmo serve para os operadores de decremento, que são usados para diminuir o 
 * Interpolação de strings pode ser feito entre aspas duplas ou adiconando um ponto entre as strings e variaveis
 
 
-## Operador ternário
+### Operador ternário
 
 Além das estruturas de controle de fluxo que vimos até aqui (if/elseif/else, switch case e match), o PHP também possui um operador que nos permite tomar decisões que resultam em uma expressão: o operador ternário ?:.
 
@@ -369,14 +371,268 @@ var_dump($filme);
 É importante ressaltar que essas funções podem ser utilizadas não somente em arquivos. Ao realizar file_get_contents('http://example.org'), por exemplo, realizamos uma requisição HTTP para o endereço passado por parâmetro. Isso é possível graças ao conceito de stream wrappers no PHP.
 Documentação: https://www.php.net/manual/en/wrappers.php
 
-### Função x
-
-Sintaxe:
-
-```php
-*******
-```
-
 ## Mensagens de Erro no PHP
 
 Documentação: https://www.php.net/manual/en/errorfunc.constants.php
+
+
+## POO em PHP
+
+### Classes
+
+Definida com a palavra `class`, as classes possuem atributos/propriedades, construtores e métodos.
+Atributos podem ser declarados dentro do método contrutor, utilizando o conceito de promoção de atributos, ou fora. 
+Para acessar os atributos da classe utiliza-se a palavra reservada `this` com o operador de seta `->`.
+Métodos podem ser `public`, `protected` ou `private`. 
+
+```php
+<?php
+
+class Filme
+{
+    private array $notas;
+
+    public function __construct(
+        private string $nome,
+        private int $anoLancamento,
+        private string $genero,
+    ) {
+        $this->notas = [];      
+    }
+
+    function avalia(float $nota): void
+    {
+        $this->notas[] = $nota;
+    }
+
+    function media(): float
+    {
+        $somaNotas = array_sum($this->notas);
+        $quantidadeNotas = count($this->notas);
+        return $somaNotas / $quantidadeNotas;
+    }
+
+    public function getAnoLancamento(): int
+    {
+        return $this->anoLancamento;
+    }
+    
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+
+    public function getGenero(): string
+    {
+        return $this->genero;
+    }
+
+}
+
+```
+
+Podemos adicionar a palavra reservada `readonly` nos atributos, para que elas seja escritas somente uma vez, sem a possibilidade de reatribuição de valores.
+
+Dessa forma, é possível alterar os atributos para públicos e acessa-los sem a necessidade de métodos getters e setters, porque não será possível "seta-los".
+
+Se todos os atributos forem `readonly` podemos adicionar a definição diretamente na classe.
+
+```php
+<?php
+
+class Filme
+{
+    private array $notas;
+
+    public function __construct(
+        public readonly string $nome,
+        public readonly int $anoLancamento,
+        public readonly string $genero,
+    ) {
+        $this->notas = [];      
+    }
+
+    function avalia(float $nota): void
+    {
+        $this->notas[] = $nota;
+    }
+
+    function media(): float
+    {
+        $somaNotas = array_sum($this->notas);
+        $quantidadeNotas = count($this->notas);
+        return $somaNotas / $quantidadeNotas;
+    }
+
+}
+```
+
+### Enums
+
+Podemos definir enumeracoes utilizando a palavra `enum` da mesma forma que uma classe, e adicionamos o `case` nas possibilidades : 
+
+```php 
+<?php
+
+enum Genero {
+    case Acao;
+    case Comedia;
+    case Terror;
+    case SuperHeroi;
+    case Drama;
+}
+```
+
+A sintaxe de utilização é a seguinte:
+
+```php
+
+$filme = new Filme(
+    "Thor - Ragnarok",
+    2021,
+    Genero::SuperHeroi
+);
+```
+
+
+### Atributos estáticos
+
+Para métodos e atributos estáticos, ou seja, que pertecem a classe em si e não aos objetos criados, podemos adicionar a palavra `static`, da seguinte forma:
+
+```php
+<?php 
+
+class Filme
+{
+    private static float $notaMinima = 7.5;
+}
+```
+
+Com isso, em um possível método que verifica se o filme é bom, podemos acessar qualquer membro estático através da palavra self. Observe:
+
+```php
+<?php
+
+class Filme
+{
+    private static float $notaMinima = 7.5;
+    // …
+    public function bom(): bool
+    {
+        return $this->media() > self::$notaMinima;
+    }
+}
+```
+
+
+### Herança
+
+Podemos utilizar herança em php definindo a classe base e adicionando a palavra `extends` nas classes filhas.
+
+Classe mãe:
+
+```php
+<?php
+
+class Titulo
+{
+    private array $notas;
+
+    public function __construct(
+        public readonly string $nome,
+        public readonly int $anoLancamento,
+        public readonly Genero $genero,
+    ) {
+        $this->notas = [];      
+    }
+
+    function avalia(float $nota): void
+    {
+        $this->notas[] = $nota;
+    }
+
+    function media(): float
+    {
+        $somaNotas = array_sum($this->notas);
+        $quantidadeNotas = count($this->notas);
+        return $somaNotas / $quantidadeNotas;
+    }
+
+}
+```
+
+Classes filhas:
+
+```php
+<?php
+
+class Serie extends Titulo {
+
+    public function __construct(
+        string $nome,
+        int $anoLancamento,
+        Genero $genero,
+        public readonly int $temporadas,
+        public readonly int $episodiosPorTemporada,
+        public readonly int $minutosPorEpisodio,
+    ) {
+        parent::__construct($nome, $anoLancamento, $genero);
+
+    }
+}
+
+class Filme extends Titulo
+{
+    public function __construct(
+        string $nome,
+        int $anoLancamento,
+        Genero $genero,
+        public readonly int $duracaoEmMinutos,
+    ) {
+        parent::__construct($nome, $anoLancamento, $genero);
+
+    }
+
+}
+```
+
+### Interfaces
+
+Podemos utilizar interfaces quando queremos garantir a implementação de métodos por classes diferentes. A palavra `interface` define a o tipo e a palavra `implements` na classe que implementa garante a implementação. É possível implementar mais de uma interface, devendo separar por virgula após o `implements`
+
+
+```php
+<?php
+
+interface Avaliavel
+{
+    public function avalia(float $nota): void;
+
+    public function media(): float;
+}
+
+
+abstract class Titulo implements Avaliavel
+{
+   //código omitido
+
+    public function avalia(float $nota): void
+    {
+        $this->notas[] = $nota;
+    }
+
+    public function media(): float
+    {
+        $somaNotas = array_sum($this->notas);
+        $quantidadeNotas = count($this->notas);
+        return $somaNotas / $quantidadeNotas;
+    }
+
+}
+
+```
+
+
+
+
+

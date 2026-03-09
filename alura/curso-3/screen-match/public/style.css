@@ -1,0 +1,107 @@
+/* Reset básico para remover margens padrão */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo do fundo e alinhamento central */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f7f7f8; /* Cinza bem claro e suave */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Título minimalista */
+h1 {
+    margin-bottom: 32px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #111;
+    letter-spacing: -0.5px;
+}
+
+/* Container do formulário em formato de card */
+form {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); /* Sombra super suave */
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Removendo as bordas feias do fieldset padrão */
+fieldset {
+    border: none;
+    margin-bottom: 24px;
+}
+
+/* Ocultando as quebras de linha do HTML, o CSS fará esse trabalho */
+fieldset br, form > br {
+    display: none;
+}
+
+/* Estilização das etiquetas (labels) */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Estilização dos campos de entrada e seleção */
+input[type="text"],
+input[type="number"],
+input[type="year"],
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #333;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao clicar/focar no campo */
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #111;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Botão de envio elegante e com contraste */
+input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #111; /* Preto minimalista */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 8px;
+}
+
+/* Efeito de hover no botão */
+input[type="submit"]:hover {
+    background-color: #333;
+}
+
+input[type="submit"]:active {
+    transform: scale(0.98);
+}
