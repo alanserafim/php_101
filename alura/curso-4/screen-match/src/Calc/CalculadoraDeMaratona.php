@@ -1,5 +1,8 @@
 <?php
 
+namespace ScreenMatch\calc;
+use ScreenMatch\model\Titulo;
+
 class CalculadoraDeMaratona
 {
     private int $duracaoMaratona = 0;

@@ -2,21 +2,9 @@
 
 namespace ScreenMatch\model;
 
-use ScreenMatch\interfaces\Avaliavel;
-
-class Episodio implements Avaliavel
+trait ComAvaliacao
 {
-
-    private array $notas;
-
-    public function __construct(
-        public readonly Serie $serie,
-        public readonly string $nome,
-        public readonly int $numero
-    ) {
-        $this->notas = [];
-    }
-
+    private array $notas=[];
     public function avalia(float $nota): void
     {
         $this->notas[] = $nota;
