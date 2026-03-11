@@ -14,7 +14,7 @@ class Filme extends Titulo
 
     }
 
-    ##[Override]
+    #[\Override]
     public function duracaoEmMinutos(): int 
     {
         return $this->duracaoEmMinutos;
